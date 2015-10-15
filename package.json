@@ -1,0 +1,34 @@
+{
+  "name": "grunt-sw-precache",
+  "version": "1.0.2",
+  "description": "A Grunt task wrapper for sw-precache.",
+  "homepage": "https://bitbucket.org/morrisallison/grunt-sw-precache",
+  "repository": {
+    "type": "hg",
+    "url": "https://bitbucket.org/morrisallison/grunt-sw-precache"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/morrisallison/grunt-sw-precache/issues"
+  },
+  "keywords": [
+    "gruntplugin",
+    "service worker",
+    "grunt",
+    "sw",
+    "precache",
+    "service",
+    "worker"
+  ],
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "dependencies": {
+    "sw-precache": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Morris Allison III <author@morrisallison.com>",
+  "license": "MIT"
+}
