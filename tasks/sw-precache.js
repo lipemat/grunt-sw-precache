@@ -13,6 +13,7 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs');
 var swPrecache = require('sw-precache');
 
 var defaultOptions = {
@@ -38,37 +39,74 @@ var defaultOptions = {
      */
     baseDir: './dist',
     workerFileName: 'service-worker.js',
+    appendTimestamp: true,
 };
+
+function getOptions(grunt, task) {
+
+    var options = task.options(defaultOptions);
+    var data = task.data;
+
+    for (var key in defaultOptions) {
+        if ( ! defaultOptions.hasOwnProperty(key)) continue;
+        if (data[key] !== undefined) options[key] = data[key];
+    }
+
+    var baseDir = options.baseDir;
+    var workerFileName = options.workerFileName;
+    var appendTimestamp = options.appendTimestamp;
+
+    delete options.baseDir;
+    delete options.workerFileName;
+    delete options.appendTimestamp;
+
+    options.logger = grunt.log.writeln;
+
+    if (options.stripPrefix === undefined) {
+        options.stripPrefix = baseDir + '/';
+    }
+
+    options.staticFileGlobs.forEach(function (fileGlob, index, staticFileGlobs) {
+        options.staticFileGlobs[index] = baseDir + '/' + fileGlob;
+    });
+
+    return {
+        config: options,
+        workerPath: path.resolve(baseDir, workerFileName),
+        appendTimestamp: appendTimestamp,
+    };
+}
 
 module.exports = function (grunt) {
 
     grunt.registerMultiTask('sw-precache', function () {
 
-        var options = this.options(defaultOptions);
-        var data = this.data;
-
-        for (var key in defaultOptions) {
-            if ( ! defaultOptions.hasOwnProperty(key)) continue;
-            if (data[key] !== undefined) options[key] = data[key];
-        }
-
-        options.logger = grunt.log.writeln;
-
-        if (options.stripPrefix === undefined) {
-            options.stripPrefix = options.baseDir + '/'
-        }
-
-        options.staticFileGlobs.forEach(function (fileGlob, index, staticFileGlobs) {
-            options.staticFileGlobs[index] = options.baseDir + '/' + fileGlob;
-        });
-
-        var workerPath = path.resolve(options.baseDir, options.workerFileName);
-        var complete = this.async();
-
-        swPrecache.write(workerPath, options, function (error) {
-            if (error) grunt.fail.warn(error);
+        var options = getOptions(grunt, this);
+        var workerPath = options.workerPath;
+        var appendTimestamp = options.appendTimestamp;
+        var taskComplete = this.async();
+        var writeComplete = function () {
             grunt.log.writeln('Service worker generated at: ' + workerPath);
-            complete();
+            taskComplete();
+        };
+
+        swPrecache.write(workerPath, options.config, function (error) {
+
+            if (error) grunt.fail.warn(error);
+
+            if (appendTimestamp === true) {
+
+                var data = '\n/* @preserve ' + new Date().toUTCString() + ' */';
+
+                fs.appendFile(workerPath, data, function (error) {
+                    if (error) grunt.fail.warn(error);
+                    writeComplete();
+                });
+
+            } else {
+
+                writeComplete();
+            }
         });
     });
 };
