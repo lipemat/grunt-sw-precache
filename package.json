@@ -1,7 +1,7 @@
 {
   "name": "grunt-sw-precache",
-  "version": "1.0.2",
-  "description": "A Grunt task wrapper for sw-precache.",
+  "version": "1.0.3",
+  "description": "A Grunt task for generating service workers using sw-precache.",
   "homepage": "https://bitbucket.org/morrisallison/grunt-sw-precache",
   "repository": {
     "type": "hg",
