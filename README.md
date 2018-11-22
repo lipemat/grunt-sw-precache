@@ -21,11 +21,10 @@ Add the following resolution to your `package.json` file
     "grunt-sw-precache": "https://github.com/lipemat/grunt-sw-precache.git"
 },
 ```
-
-grunt-sw-precache can be installed using the following command:
-
-```bash
-$ npm install grunt-sw-precache --save-dev
+```
+ "dependencies": {
+    "grunt-sw-precache": "https://github.com/lipemat/grunt-sw-precache.git"
+ }
 ```
 
 To enable grunt-sw-precache, add the following line to your `Gruntfile`:
