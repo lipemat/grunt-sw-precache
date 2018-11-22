@@ -14,6 +14,14 @@ The guide explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfi
 
 ## Installation
 
+Add the following resolution to your `package.json` file
+
+```
+"resolutions": {
+    "grunt-sw-precache": "https://github.com/lipemat/grunt-sw-precache.git"
+},
+```
+
 grunt-sw-precache can be installed using the following command:
 
 ```bash
