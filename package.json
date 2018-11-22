@@ -20,10 +20,10 @@
     "worker"
   ],
   "peerDependencies": {
-    "grunt": "~0.4.5"
+    "grunt": "^1.0.2"
   },
   "dependencies": {
-    "sw-precache": "^2.2.0"
+    "sw-precache": "^5.2.1"
   },
   "devDependencies": {},
   "scripts": {
