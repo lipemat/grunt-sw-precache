@@ -19,6 +19,6 @@
     "sw-precache": "^5.2.1"
   },
   "devDependencies": {},
-  "author": "Mat Lipe",
+  "author": "Mat Lipe <mat@matlipe.com>",
   "license": "MIT"
 }

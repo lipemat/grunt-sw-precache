@@ -23,21 +23,67 @@ var defaultOptions = {
     cacheId: undefined,
     directoryIndex: undefined,
     dynamicUrlToDependencies: undefined,
-    handleFetch: undefined,
+    handleFetch: true,
     ignoreUrlParametersMatching: undefined,
     importScripts: undefined,
     maximumFileSizeToCacheInBytes: undefined,
     navigateFallback: undefined,
-    stripPrefix: undefined,
+    stripPrefix: '.',
     replacePrefix: undefined,
-    staticFileGlobs: undefined,
+    staticFileGlobs: [],
     templateFilePath: undefined,
-    verbose: undefined,
+    verbose: true,
+    skipWaiting: true,
+    runtimeCaching: [
+        {
+            urlPattern: /\/$/,
+            handler: 'networkFirst'
+        },
+        {
+            urlPattern: /\/*\.css/,
+            handler: 'cacheFirst',
+            options: {
+                cache: {
+                    maxEntries: 50,
+                    name: 'css-cache'
+                }
+            }
+        },
+        {
+            urlPattern: /\/*\.js/,
+            handler: 'cacheFirst',
+            options: {
+                cache: {
+                    maxEntries: 50,
+                    name: 'js-cache'
+                }
+            }
+        },
+        {
+            urlPattern: /\/*\.(?:png|jpg|gif|jpeg)/,
+            handler: 'cacheFirst',
+            options: {
+                cache: {
+                    maxEntries: 500,
+                    name: 'img-cache'
+                }
+            }
+        },
+        {
+            urlPattern: /\/*\.(?:tff|woff|eot|svg)/,
+            handler: 'cacheFirst',
+            options: {
+                cache: {
+                    maxEntries: 10,
+                    name: 'font-cache'
+                }
+            }
+        }],
 
     /**
      * grunt-sw-precache specific options
      */
-    baseDir: './dist',
+    baseDir: './',
     workerFileName: 'service-worker.js',
     appendTimestamp: true,
 };

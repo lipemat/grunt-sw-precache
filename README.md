@@ -5,6 +5,12 @@ A [Grunt](http://gruntjs.com) task for generating service workers using [sw-prec
 [![npm Version](https://img.shields.io/npm/v/grunt-sw-precache.svg?style=flat-square)](https://www.npmjs.com/package/grunt-sw-precache)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://bitbucket.org/morrisallison/grunt-sw-precache/raw/default/LICENSE)
 
+Loaded with default settings including `runtimeCaching` which automatically uses the correct [handlers](https://googlechromelabs.github.io/sw-toolbox/api.html#handlers) to cache both the page content and all resources. 
+
+**Out of the box this will work for dynamic websites without any special configurations!**
+
+_Obviously_ all options may be overridden for static sites and apps.
+
 ## Getting Started
 
 grunt-sw-precache requires Grunt `~1.0.3`.
@@ -37,7 +43,7 @@ For all other options, please view the [options documentation for sw-precache](h
 
 The base directory for the `staticFileGlobs` and `workerFileName` options.
 
-Default is `"./dist"`;
+Default is `"./"`;
 
 ### workerFileName `string`
 
@@ -66,25 +72,65 @@ Default is `baseDir + '/'`;
     grunt.initConfig({
 		'sw-precache': {
 			options: {
-				cacheId: 'your-package-name',
-				workerFileName: 'sw.js',
-				verbose: true,
-			},
-			'default': {
-				staticFileGlobs: [
-					'css/**/*.css',
-					'font/**/*.{woff,ttf,svg,eot}',
-					'img/**/*.{gif,png,jpg}',
-					'js/**/*.js',
-				],
-			},
-			'develop': {
-				staticFileGlobs: [
-					'font/**/*.{woff,ttf,svg,eot}'
-				],
-			},
-		},
+                    cacheId: 'your-package-name'
+                },
+                /**
+                 * Don't use cache while developing
+                 */
+                default: {
+                    handleFetch: false
+                },
+            
+                dist: {}
+           }
     });
+    
+### Default `runtimeCaching` configuration
+    runtimeCaching: [
+            {
+                urlPattern: /\/$/,
+                handler: 'networkFirst'
+            },
+            {
+                urlPattern: /\/*\.css/,
+                handler: 'cacheFirst',
+                options: {
+                    cache: {
+                        maxEntries: 50,
+                        name: 'css-cache'
+                    }
+                }
+            },
+            {
+                urlPattern: /\/*\.js/,
+                handler: 'cacheFirst',
+                options: {
+                    cache: {
+                        maxEntries: 50,
+                        name: 'js-cache'
+                    }
+                }
+            },
+            {
+                urlPattern: /\/*\.(?:png|jpg|gif|jpeg)/,
+                handler: 'cacheFirst',
+                options: {
+                    cache: {
+                        maxEntries: 500,
+                        name: 'img-cache'
+                    }
+                }
+            },
+            {
+                urlPattern: /\/*\.(?:tff|woff|eot|svg)/,
+                handler: 'cacheFirst',
+                options: {
+                    cache: {
+                        maxEntries: 10,
+                        name: 'font-cache'
+                    }
+                }
+    }]
 
 ## License
 
