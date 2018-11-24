@@ -2,7 +2,6 @@
 
 A [Grunt](http://gruntjs.com) task for generating service workers using [sw-precache](https://www.npmjs.com/package/sw-precache).
 
-[![npm Version](https://img.shields.io/npm/v/grunt-sw-precache.svg?style=flat-square)](https://www.npmjs.com/package/grunt-sw-precache)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://bitbucket.org/morrisallison/grunt-sw-precache/raw/default/LICENSE)
 
 Loaded with default settings including `runtimeCaching` which automatically uses the correct [handlers](https://googlechromelabs.github.io/sw-toolbox/api.html#handlers) to cache both the page content and all resources. 
