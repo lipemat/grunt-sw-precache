@@ -1,6 +1,6 @@
 {
   "name": "grunt-service-worker-precache",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Grunt task for generating service workers using sw-precache.",
   "homepage": "https://github.com/lipemat/grunt-sw-precache",
   "keywords": [
