@@ -38,6 +38,19 @@ The options documented here are specific to `grunt-service-worked-precache`.
 
 For all other options, please view the [options documentation for sw-precache](https://github.com/googlechrome/sw-precache#options).
 
+### offlineFallback `object`
+
+A page to load if the we go offline and the current page is not cached. Also specifiy an array of resources like images or stylesheets to preload specifically for this page.
+
+```js
+ offlineFallback: {
+        url : '/',
+        resources: [ '/dist/img1.png', '/dist/style.css' ]
+    }
+```
+
+Default is `url : '/'` and `resources: []`. Set to false to disable.
+
 ### baseDir `string`
 
 The base directory for the `staticFileGlobs` and `workerFileName` options.

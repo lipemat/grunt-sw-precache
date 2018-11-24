@@ -14,6 +14,7 @@
 
 var path = require('path');
 var fs = require('fs');
+var prependFile = require('prepend-file');
 var swPrecache = require('sw-precache');
 
 var defaultOptions = {
@@ -37,7 +38,7 @@ var defaultOptions = {
     runtimeCaching: [
         {
             urlPattern: /\/$/,
-            handler: 'networkFirst'
+            handler: 'networkFirst',
         },
         {
             urlPattern: /\/*\.css/,
@@ -86,6 +87,10 @@ var defaultOptions = {
     baseDir: './',
     workerFileName: 'service-worker.js',
     appendTimestamp: true,
+    offlineFallback: {
+        url : '/',
+        resources: []
+    }
 };
 
 function getOptions(grunt, task) {
@@ -97,6 +102,8 @@ function getOptions(grunt, task) {
         if ( ! defaultOptions.hasOwnProperty(key)) continue;
         if (data[key] !== undefined) options[key] = data[key];
     }
+
+    options.offlineFallback.resources.push( options.offlineFallback.url );
 
     var baseDir = options.baseDir;
     var workerFileName = options.workerFileName;
@@ -131,7 +138,12 @@ module.exports = function (grunt) {
         var workerPath = options.workerPath;
         var appendTimestamp = options.appendTimestamp;
         var taskComplete = this.async();
+        var complete = false;
         var writeComplete = function () {
+            if ( ! complete ) {
+                complete = true;
+                return;
+            }
             grunt.log.writeln('Service worker generated at: ' + workerPath);
             taskComplete();
         };
@@ -140,19 +152,28 @@ module.exports = function (grunt) {
 
             if (error) grunt.fail.warn(error);
 
+            if ( typeof options.config.offlineFallback.url !== 'undefined' ) {
+                fs.readFile(path.resolve(__dirname + '/../offline-default.js'), function (error, contents) {
+                    if (error) grunt.fail.warn(error);
+                    contents = contents.toString().replace(/<%= config.offlineFallback.url %>/g, options.config.offlineFallback.url);
+                    contents = contents.toString().replace(/<%= config.offlineFallback.resources %>/g, options.config.offlineFallback.resources.join("','"));
+
+                    prependFile(workerPath, contents, function (error) {
+                        if (error) grunt.fail.warn(error);
+                        writeComplete();
+                    });
+                });
+            }
+
             if (appendTimestamp === true) {
-
                 var data = '\n/* @preserve ' + new Date().toUTCString() + ' */';
-
                 fs.appendFile(workerPath, data, function (error) {
                     if (error) grunt.fail.warn(error);
+
                     writeComplete();
                 });
-
-            } else {
-
-                writeComplete();
             }
+
         });
     });
 };
