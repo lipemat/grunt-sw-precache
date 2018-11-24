@@ -87,6 +87,7 @@ var defaultOptions = {
     baseDir: './',
     workerFileName: 'service-worker.js',
     appendTimestamp: true,
+    cacheGoogleFonts: true,
     offlineFallback: {
         url : '/',
         resources: []
@@ -157,6 +158,7 @@ module.exports = function (grunt) {
                     if (error) grunt.fail.warn(error);
                     contents = contents.toString().replace(/<%= config.offlineFallback.url %>/g, options.config.offlineFallback.url);
                     contents = contents.toString().replace(/<%= config.offlineFallback.resources %>/g, options.config.offlineFallback.resources.join("','"));
+                    contents = contents.toString().replace(/<%= config.cacheGoogleFonts %>/g, options.config.cacheGoogleFonts);
 
                     prependFile(workerPath, contents, function (error) {
                         if (error) grunt.fail.warn(error);

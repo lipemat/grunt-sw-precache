@@ -4,6 +4,12 @@
  */
 self.addEventListener( 'install', function( event ){
     toolbox.precache(['<%= config.offlineFallback.resources %>']);
+
+    if(<%= config.cacheGoogleFonts %>){
+        toolbox.router.get('/(.+)', toolbox.fastest, {
+            origin: /https?:\/\/fonts.+/
+        });
+    }
 });
 
 /**

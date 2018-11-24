@@ -51,6 +51,11 @@ A page to load if the we go offline and the current page is not cached. Also spe
 
 Default is `url : '/'` and `resources: []`. Set to false to disable.
 
+### cacheGoogleFonts `boolean`
+Cache any required Google Webfonts so they will be loaded when site is offline.
+
+Default is `true`
+
 ### baseDir `string`
 
 The base directory for the `staticFileGlobs` and `workerFileName` options.
