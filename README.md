@@ -1,4 +1,4 @@
-# grunt-sw-precache
+# grunt-service-worker-precache
 
 A [Grunt](http://gruntjs.com) task for generating service workers using [sw-precache](https://www.npmjs.com/package/sw-precache).
 
@@ -7,7 +7,7 @@ A [Grunt](http://gruntjs.com) task for generating service workers using [sw-prec
 
 ## Getting Started
 
-grunt-sw-precache requires Grunt `~0.4.5`.
+grunt-sw-precache requires Grunt `~1.0.3`.
 
 If you haven't used [Grunt](http://gruntjs.com/) before, please view the [Getting Started](http://gruntjs.com/getting-started) guide.
 The guide explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile), and how to install and use Grunt plugins.
@@ -16,26 +16,20 @@ The guide explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfi
 
 Add the following resolution to your `package.json` file
 
-```
-"resolutions": {
-    "grunt-sw-precache": "https://github.com/lipemat/grunt-sw-precache.git"
-},
-```
-```
- "dependencies": {
-    "grunt-sw-precache": "https://github.com/lipemat/grunt-sw-precache.git"
- }
+``` bash
+npm install grunt-service-worked-precache
 ```
 
-To enable grunt-sw-precache, add the following line to your `Gruntfile`:
+
+To enable grunt-service-worked-precache, add the following line to your `Gruntfile`:
 
 ```javascript
-grunt.loadNpmTasks('grunt-sw-precache');
+grunt.loadNpmTasks('grunt-service-worked-precache');
 ```
 
 ## Configuration
 
-The options documented here are specific to grunt-sw-precache.
+The options documented here are specific to `grunt-service-worked-precache`.
 
 For all other options, please view the [options documentation for sw-precache](https://github.com/googlechrome/sw-precache#options).
 

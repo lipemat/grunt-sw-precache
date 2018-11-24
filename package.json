@@ -1,5 +1,5 @@
 {
-  "name": "grunt-sw-precache",
+  "name": "grunt-service-worker-precache",
   "version": "1.1.0",
   "description": "A Grunt task for generating service workers using sw-precache.",
   "homepage": "https://github.com/lipemat/grunt-sw-precache",
@@ -19,6 +19,6 @@
     "sw-precache": "^5.2.1"
   },
   "devDependencies": {},
-  "author": "Morris Allison III <author@morrisallison.com>",
+  "author": "Mat Lipe",
   "license": "MIT"
 }
