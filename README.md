@@ -38,18 +38,34 @@ The options documented here are specific to `grunt-service-worked-precache`.
 
 For all other options, please view the [options documentation for sw-precache](https://github.com/googlechrome/sw-precache#options).
 
+### startURL `object`
+
+`start_url` specified in PWA manifest. This URL and any provided resources will be precached to make available if app starts up offline. 
+
+```js
+ startURL: {
+        url : '/',
+        resources: [ '/dist/img1.png', '/dist/style.css' ]
+    }
+```
+
+Default is `url : '/'` and `resources: []`. 
+Set to `false` to disable.
+
 ### offlineFallback `object`
 
 A page to load if the we go offline and the current page is not cached. Also specifiy an array of resources like images or stylesheets to preload specifically for this page.
 
 ```js
  offlineFallback: {
-        url : '/',
+        url : '/offline',
         resources: [ '/dist/img1.png', '/dist/style.css' ]
     }
 ```
 
-Default is `url : '/'` and `resources: []`. Set to false to disable.
+Default is `url : '/'` and `resources: []`. 
+Set to `false` to disable.
+
 
 ### cacheGoogleFonts `boolean`
 Cache any required Google Webfonts so they will be loaded when site is offline.
@@ -88,18 +104,26 @@ Default is `baseDir + '/'`;
 
     grunt.initConfig({
 		'sw-precache': {
-			options: {
-                    cacheId: 'your-package-name'
-                },
-                /**
-                 * Don't use cache while developing
-                 */
-                default: {
-                    handleFetch: false
-                },
-            
-                dist: {}
-           }
+             options: {
+                     cacheId: '<%= pkg.name %>'
+                 },
+                 /**
+                  * Don't use cache while developing
+                  */
+                 default: {
+                     handleFetch: false
+                 },
+             
+                 dist: {
+                     startURL : {
+                         url : '/',
+                         resources : []
+                     },
+                     offlineFallback : {
+                         url : '/offline',
+                         resources : []
+                     }
+                 }
     });
     
 ### Default `runtimeCaching` configuration

@@ -91,6 +91,10 @@ var defaultOptions = {
     offlineFallback: {
         url : '/',
         resources: []
+    },
+    startURL: {
+        url : '/',
+        resources: []
     }
 };
 
@@ -105,6 +109,7 @@ function getOptions(grunt, task) {
     }
 
     options.offlineFallback.resources.push( options.offlineFallback.url );
+    options.startURL.resources.push( options.startURL.url );
 
     var baseDir = options.baseDir;
     var workerFileName = options.workerFileName;
@@ -139,42 +144,54 @@ module.exports = function (grunt) {
         var workerPath = options.workerPath;
         var appendTimestamp = options.appendTimestamp;
         var taskComplete = this.async();
-        var complete = false;
         var writeComplete = function () {
-            if ( ! complete ) {
-                complete = true;
-                return;
-            }
             grunt.log.writeln('Service worker generated at: ' + workerPath);
             taskComplete();
         };
+        var _prependContents = '';
 
         swPrecache.write(workerPath, options.config, function (error) {
 
             if (error) grunt.fail.warn(error);
 
-            if ( typeof options.config.offlineFallback.url !== 'undefined' ) {
-                fs.readFile(path.resolve(__dirname + '/../offline-default.js'), function (error, contents) {
-                    if (error) grunt.fail.warn(error);
-                    contents = contents.toString().replace(/<%= config.offlineFallback.url %>/g, options.config.offlineFallback.url);
-                    contents = contents.toString().replace(/<%= config.offlineFallback.resources %>/g, options.config.offlineFallback.resources.join("','"));
-                    contents = contents.toString().replace(/<%= config.cacheGoogleFonts %>/g, options.config.cacheGoogleFonts);
-
-                    prependFile(workerPath, contents, function (error) {
-                        if (error) grunt.fail.warn(error);
-                        writeComplete();
-                    });
+            if (options.config.cacheGoogleFonts) {
+                fs.readFile(path.resolve(__dirname + '/../templates/google-fonts.js'), function (error, contents) {
+                    _prependContents += contents;
                 });
             }
+
+            if (options.config.startURL.url !== 'undefined' && options.config.startURL.url !== options.config.offlineFallback.url) {
+                fs.readFile(path.resolve(__dirname + '/../templates/precache.js'), function (error, contents) {
+                    contents = contents.toString().replace(/<%= resources %>/g, options.config.startURL.resources.join("','"));
+                    _prependContents += contents.toString().replace(/<%= var %>/g, 'startURL' );
+                })
+            }
+
+            if (typeof options.config.offlineFallback.url !== 'undefined') {
+                fs.readFile(path.resolve(__dirname + '/../templates/precache.js'), function (error, contents) {
+                    contents = contents.toString().replace(/<%= resources %>/g, options.config.offlineFallback.resources.join("','"));
+                    _prependContents += contents.toString().replace(/<%= var %>/g, 'offlineFallback' );
+                });
+                fs.readFile(path.resolve(__dirname + '/../templates/offline-default.js'), function (error, contents) {
+                    _prependContents += contents.toString().replace(/<%= config.offlineFallback.url %>/g, options.config.offlineFallback.url);
+                });
+
+            }
+
 
             if (appendTimestamp === true) {
                 var data = '\n/* @preserve ' + new Date().toUTCString() + ' */';
                 fs.appendFile(workerPath, data, function (error) {
                     if (error) grunt.fail.warn(error);
-
-                    writeComplete();
                 });
             }
+
+            setTimeout( function() {
+                prependFile(workerPath, _prependContents, function (error) {
+                    if (error) grunt.fail.warn(error);
+                    writeComplete()
+                });
+            }, 2000 );
 
         });
     });

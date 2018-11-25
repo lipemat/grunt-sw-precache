@@ -1,18 +1,4 @@
 /**
- * Precache the offline fallback and any other resources
- * passed to the `offlineFallback` config
- */
-self.addEventListener( 'install', function( event ){
-    toolbox.precache(['<%= config.offlineFallback.resources %>']);
-
-    if(<%= config.cacheGoogleFonts %>){
-        toolbox.router.get('/(.+)', toolbox.fastest, {
-            origin: /https?:\/\/fonts.+/
-        });
-    }
-});
-
-/**
  * If we are not online and we are getting page content via
  * 'navigate' event.
  *
