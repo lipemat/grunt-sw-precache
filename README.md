@@ -102,6 +102,9 @@ Default is `baseDir + '/'`;
 
 ### Example
 
+*Example files for things like manifests and loading of service worker may be found in the `/example` directory*
+
+```json
     grunt.initConfig({
 		'sw-precache': {
              options: {
@@ -125,8 +128,9 @@ Default is `baseDir + '/'`;
                      }
                  }
     });
-    
+```
 ### Default `runtimeCaching` configuration
+```json
     runtimeCaching: [
             {
                 urlPattern: /\/$/,
@@ -172,7 +176,7 @@ Default is `baseDir + '/'`;
                     }
                 }
     }]
-
+```
 ## License
 
 Released under the [MIT license](https://bitbucket.org/morrisallison/grunt-sw-precache/raw/default/LICENSE).

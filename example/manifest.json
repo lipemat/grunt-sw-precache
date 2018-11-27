@@ -1,0 +1,20 @@
+{
+  "short_name": "Mat Lipe",
+  "name": "Mat Lipe Dot Com",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/wp-content/themes/core/images/app-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/wp-content/themes/core/images/app-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#000000",
+  "theme_color": "#008000",
+  "display": "standalone"
+}
