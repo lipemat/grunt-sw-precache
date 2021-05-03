@@ -22,19 +22,19 @@ The guide explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfi
 Add the following resolution to your `package.json` file
 
 ``` bash
-npm install grunt-service-worked-precache
+yarn add grunt-service-worker-precache
 ```
 
 
 To enable grunt-service-worked-precache, add the following line to your `Gruntfile`:
 
 ```javascript
-grunt.loadNpmTasks('grunt-service-worked-precache');
+grunt.loadNpmTasks('grunt-service-worker-precache');
 ```
 
 ## Configuration
 
-The options documented here are specific to `grunt-service-worked-precache`.
+The options documented here are specific to `grunt-service-worker-precache`.
 
 For all other options, please view the [options documentation for sw-precache](https://github.com/googlechrome/sw-precache#options).
 
